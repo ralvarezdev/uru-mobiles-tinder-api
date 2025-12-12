@@ -1,0 +1,33 @@
+[submodule "sql-user"]
+	path = sql-user
+	url = https://github.com/ralvarezdev/sql-user
+[submodule "sql-auth"]
+	path = sql-auth
+	url = https://github.com/ralvarezdev/sql-auth
+[submodule "sql-chats"]
+	path = sql-chats
+	url = https://github.com/ralvarezdev/sql-chats
+[submodule "connect-chats"]
+	path = connect-chats
+	url = https://github.com/ralvarezdev/connect-chats
+[submodule "connect-social"]
+	path = connect-social
+	url = https://github.com/ralvarezdev/connect-social
+[submodule "websockets-realtime-chats"]
+	path = websockets-realtime-chats
+	url = https://github.com/ralvarezdev/websockets-realtime-chats
+[submodule "http-files-server"]
+	path = http-files-server
+	url = https://github.com/ralvarezdev/http-files-server
+[submodule "connect-user"]
+	path = connect-user
+	url = https://github.com/ralvarezdev/connect-user
+[submodule "connect-auth"]
+	path = connect-auth
+	url = https://github.com/ralvarezdev/connect-auth
+[submodule "worker-internal-mailer"]
+	path = worker-internal-mailer
+	url = https://github.com/ralvarezdev/worker-internal-mailer
+[submodule "api.ralvarez.app"]
+	path = api.ralvarez.app
+	url = https://github.com/ralvarezdev/api.ralvarez.app

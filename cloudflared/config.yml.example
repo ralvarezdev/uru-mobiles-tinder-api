@@ -1,0 +1,54 @@
+tunnel: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+credentials-file: /home/user/.cloudflared/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.json
+
+ingress:
+  - hostname: api.example.org
+    service: http://localhost:9000
+  - hostname: auth.example.org
+    service: http://localhost:9001
+  - hostname: auth2.example.org
+    service: grpc://localhost:9001
+    originRequest:
+      http2Origin: true
+      noTLSVerify: true
+      readTimeout: 3600s
+      writeTimeout: 3600s
+  - hostname: user.example.org
+    service: http://localhost:9002
+  - hostname: user2.example.org
+    service: grpc://localhost:9002
+    originRequest:
+      http2Origin: true
+      noTLSVerify: true
+      readTimeout: 3600s
+      writeTimeout: 3600s
+  - hostname: chat.example.org
+    service: http://localhost:9003
+  - hostname: chat2.example.org
+    service: grpc://localhost:9003
+    originRequest:
+      http2Origin: true
+      noTLSVerify: true
+      readTimeout: 3600s
+      writeTimeout: 3600s
+  - hostname: social.example.org
+    service: http://localhost:9004
+  - hostname: social2.example.org
+    service: grpc://localhost:9004
+    originRequest:
+      http2Origin: true
+      noTLSVerify: true
+      readTimeout: 3600s
+      writeTimeout: 3600s
+  - hostname: realtime.example.org
+    service: http://localhost:9005
+  - hostname: realtime2.example.org
+    service: grpc://localhost:9005
+    originRequest:
+      http2Origin: true
+      noTLSVerify: true
+      readTimeout: 3600s
+      writeTimeout: 3600s
+  - hostname: grafana.example.org
+    service: http://localhost:3000
+  - service: http_status:404
