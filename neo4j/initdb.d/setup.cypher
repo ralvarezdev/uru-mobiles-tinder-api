@@ -1,23 +1,10 @@
-// Create social database
-CREATE DATABASE $socialDbName IF NOT EXISTS;
+// Neo4j Community Edition - Single Database Setup
+// Create users with different access levels
 
-// Create two additional database users
-CREATE USER $userUsername IF NOT EXISTS SET PASSWORD $userPassword CHANGE NOT REQUIRED;
-CREATE USER $socialUsername IF NOT EXISTS SET PASSWORD $socialPassword CHANGE NOT REQUIRED;
+// Create read/write user for user service
+CREATE USER $userUsername SET PASSWORD $userPassword CHANGE NOT REQUIRED;
+// GRANT ROLE editor TO $userUsername;
 
-// Grant roles to users
-GRANT ROLE editor TO $userUsername;
-GRANT ROLE reader TO $socialUsername;
-
-// Grant database access
-// User has read/write access to social database
-GRANT ACCESS ON DATABASE $socialDbName TO $userUsername;
-
-// Social user has read-only access to social database
-GRANT ACCESS ON DATABASE $socialDbName TO $socialUsername;
-
-// Show all users
-SHOW USERS;
-
-// Show all databases
-SHOW DATABASES;
+// Create read-only user for social service  
+CREATE USER $socialUsername SET PASSWORD $socialPassword CHANGE NOT REQUIRED;
+// GRANT ROLE reader TO $socialUsername;

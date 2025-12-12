@@ -1,11 +1,15 @@
-FROM neo4j:5.15
+FROM docker.io/library/neo4j:latest
 
 # Copy custom scripts
-COPY entrypoint.sh /entrypoint.sh
-COPY initdb.d/setup.cypher /var/lib/neo4j/setup.cypher
+COPY entrypoint.sh /app/entrypoint.sh
+COPY healthcheck.sh /app/healthcheck.sh
+COPY initdb.d/setup.cypher /app/setup.cypher
+
+# Set working directory
+WORKDIR /app
 
 # Make entrypoint executable
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /app/entrypoint.sh /app/healthcheck.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["neo4j"]
