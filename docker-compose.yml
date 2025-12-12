@@ -211,6 +211,12 @@ services:
       REDIS_USERNAME: ${REDIS_USER_USER}
       REDIS_PASSWORD: ${REDIS_USER_PASSWORD}
       REDIS_DB: ${REDIS_TOKENS_DB}
+      
+      # Neo4j configuration
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: ${NEO4J_USER_USERNAME}
+      NEO4J_PASSWORD: ${NEO4J_USER_PASSWORD}
+      NEO4J_DB_NAME: ${NEO4J_SOCIAL_DB_NAME}
     volumes:
       - ./jwt/keys/public_key.pem:/app/config/public_key.pem:ro
     networks:
@@ -305,6 +311,12 @@ services:
       REDIS_USERNAME: ${REDIS_SOCIAL_USER}
       REDIS_PASSWORD: ${REDIS_SOCIAL_PASSWORD}
       REDIS_DB: ${REDIS_TOKENS_DB}
+      
+      # Neo4j configuration
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: ${NEO4J_SOCIAL_USERNAME}
+      NEO4J_PASSWORD: ${NEO4J_SOCIAL_PASSWORD}
+      NEO4J_DB_NAME: ${NEO4J_SOCIAL_DB_NAME}
     volumes:
       - ./jwt/keys/public_key.pem:/app/config/public_key.pem:ro
     networks:
@@ -570,6 +582,58 @@ services:
     networks:
       - app-network
       - monitoring
+      
+  # Neo4j Graph Database (private, ports 7474 and 7687 not exposed)
+  neo4j:
+    build: 
+      context: ./neo4j
+    hostname: neo4j
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
+    ports:
+      - "7474:7474"  # HTTP API
+      - "7687:7687"  # Bolt Protocol
+    environment:
+      # Memory settings
+      NEO4J_dbms_memory_pagecache_size: 512M
+      NEO4J_dbms_memory_heap_max__size: 1G
+      
+      # Enable APOC plugin
+      NEO4J_PLUGINS: '["apoc"]'
+      
+      # Default authentication for the main
+      NEO4J_AUTH: ${NEO4J_DEFAULT_USERNAME}/${NEO4J_DEFAULT_PASSWORD}
+      NEO4J_DEFAULT_USERNAME: ${NEO4J_DEFAULT_USERNAME}
+      NEO4J_DEFAULT_PASSWORD: ${NEO4J_DEFAULT_PASSWORD}
+      
+      # Neo4j databases
+      NEO4J_SOCIAL_DB_NAME: ${NEO4J_SOCIAL_DB_NAME}
+      
+      # Neo4j usernames
+      NEO4J_USER_USERNAME: ${NEO4J_USER_USERNAME}
+      NEO4J_SOCIAL_USERNAME: ${NEO4J_SOCIAL_USERNAME}
+      
+      # Neo4j passwords
+      NEO4J_USER_PASSWORD: ${NEO4J_USER_PASSWORD}
+      NEO4J_SOCIAL_PASSWORD: ${NEO4J_SOCIAL_PASSWORD}
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password123", "RETURN 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+      - monitoring
 
   # Prometheus (private, port 9090 not exposed)
   prometheus:
@@ -738,6 +802,8 @@ volumes:
   postgres-data: {}
   redis-data: {}
   rabbitmq-data: {}
+  neo4j-data: {}
+  neo4j-logs: {}
   grafana-data: {}
   prometheus-data: {}
   loki-data: {}
