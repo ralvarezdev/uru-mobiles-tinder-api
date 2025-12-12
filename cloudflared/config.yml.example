@@ -42,13 +42,8 @@ ingress:
       writeTimeout: 3600s
   - hostname: realtime.example.org
     service: http://localhost:9005
-  - hostname: realtime2.example.org
-    service: grpc://localhost:9005
-    originRequest:
-      http2Origin: true
-      noTLSVerify: true
-      readTimeout: 3600s
-      writeTimeout: 3600s
+  - hostname: files.example.org
+    service: http://localhost:9006
   - hostname: grafana.example.org
     service: http://localhost:3000
   - service: http_status:404
