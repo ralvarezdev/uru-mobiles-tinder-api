@@ -198,8 +198,8 @@ services:
       MODE: ${USER_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: grpc://auth:8080
-      INTERNAL_AUTH_SERVICE_ADDRESS: grpc://auth:8081
+      AUTH_SERVICE_ADDRESS: http://auth:8080
+      INTERNAL_AUTH_SERVICE_ADDRESS: http://auth:8081
 
       # Postgres Connection
       POSTGRES_DSN: postgres://${POSTGRES_USER_DB_USER}:${POSTGRES_USER_DB_PASSWORD_ENCODED}@postgres:5432/${POSTGRES_USER_DB_NAME}?sslmode=disable
@@ -252,7 +252,7 @@ services:
       MODE: ${CHATS_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: grpc://auth:8080
+      AUTH_SERVICE_ADDRESS: http://auth:8080
       HTTP_FILES_SERVER_ADDRESS: http://http-files-server:8080
 
       # Postgres Connection
@@ -303,7 +303,7 @@ services:
       MODE: ${SOCIAL_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: grpc://auth:8080
+      AUTH_SERVICE_ADDRESS: http://auth:8080
       
       # Redis configuration
       REDIS_ADDRESS: redis:6379
@@ -347,9 +347,9 @@ services:
       MODE: ${REALTIME_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: grpc://auth:8080
+      AUTH_SERVICE_ADDRESS: http://auth:8080
       HTTP_FILES_SERVER_ADDRESS: http://http-files-server:8080
-      CHATS_SERVICE_ADDRESS: grpc://chats:8080
+      CHATS_SERVICE_ADDRESS: http://chats:8080
       
       # Redis configuration
       REDIS_ADDRESS: redis:6379

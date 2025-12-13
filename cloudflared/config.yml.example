@@ -7,7 +7,7 @@ ingress:
   - hostname: auth.example.org
     service: http://localhost:9001
   - hostname: auth2.example.org
-    service: grpc://localhost:9001
+    service: http://localhost:9001
     originRequest:
       http2Origin: true
       noTLSVerify: true
@@ -16,7 +16,7 @@ ingress:
   - hostname: user.example.org
     service: http://localhost:9002
   - hostname: user2.example.org
-    service: grpc://localhost:9002
+    service: http://localhost:9002
     originRequest:
       http2Origin: true
       noTLSVerify: true
@@ -25,7 +25,7 @@ ingress:
   - hostname: chat.example.org
     service: http://localhost:9003
   - hostname: chat2.example.org
-    service: grpc://localhost:9003
+    service: http://localhost:9003
     originRequest:
       http2Origin: true
       noTLSVerify: true
@@ -34,7 +34,7 @@ ingress:
   - hostname: social.example.org
     service: http://localhost:9004
   - hostname: social2.example.org
-    service: grpc://localhost:9004
+    service: http://localhost:9004
     originRequest:
       http2Origin: true
       noTLSVerify: true
