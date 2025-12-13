@@ -4,12 +4,6 @@
 [submodule "sql-auth"]
 	path = sql-auth
 	url = https://github.com/ralvarezdev/sql-auth
-[submodule "sql-chats"]
-	path = sql-chats
-	url = https://github.com/ralvarezdev/sql-chats
-[submodule "connect-chats"]
-	path = connect-chats
-	url = https://github.com/ralvarezdev/connect-chats
 [submodule "connect-social"]
 	path = connect-social
 	url = https://github.com/ralvarezdev/connect-social
@@ -31,3 +25,9 @@
 [submodule "api.ralvarez.app"]
 	path = api.ralvarez.app
 	url = https://github.com/ralvarezdev/api.ralvarez.app
+[submodule "connect-sync-chats"]
+	path = connect-sync-chats
+	url = https://github.com/ralvarezdev/connect-sync-chats
+[submodule "sql-chats"]
+	path = sql-chats
+	url = https://github.com/ralvarezdev/sql-chats

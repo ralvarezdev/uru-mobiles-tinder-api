@@ -6,7 +6,7 @@ mkdir -p ./postgres/initdb.d/sql
 # Create the folders if they don't exist
 mkdir -p ./sql-auth
 mkdir -p ./sql-user
-mkdir -p ./sql-chats
+mkdir -p ./sql-sync-chats
 
 # Copy SQL initialization files from Auth microservice to the postgres directory
 for file in ./sql-auth/*.sql; do
@@ -22,7 +22,7 @@ for file in ./sql-user/*.sql; do
     fi
 done
 
-# Copy SQL initialization files from Chats microservice to the postgres directory
+# Copy SQL initialization files from Chats microservice and Websockets to the postgres directory
 for file in ./sql-chats/*.sql; do
     if [ -f "$file" ]; then
         cp "$file" "./postgres/initdb.d/sql/chats_$(basename "$file")"

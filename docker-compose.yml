@@ -198,8 +198,8 @@ services:
       MODE: ${USER_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: http://auth:8080
-      INTERNAL_AUTH_SERVICE_ADDRESS: http://auth:8081
+      AUTH_SERVICE_ADDRESS: http://connect-auth:8080
+      INTERNAL_AUTH_SERVICE_ADDRESS: http://connect-auth:8081
 
       # Postgres Connection
       POSTGRES_DSN: postgres://${POSTGRES_USER_DB_USER}:${POSTGRES_USER_DB_PASSWORD_ENCODED}@postgres:5432/${POSTGRES_USER_DB_NAME}?sslmode=disable
@@ -229,13 +229,13 @@ services:
       connect-auth:
         condition: service_started
 
-  # Chats Service (public) - chats.ralvarez.dev (gRPC) and chats.ralvarez.app (HTTP)
-  connect-chats:
+  # Sync Chats Service (public) - sync.ralvarez.dev (gRPC) and sync.ralvarez.app (HTTP)
+  connect-sync-chats:
     build:
-      context: ./connect-chats
+      context: ./connect-sync-chats
       secrets:
         - GITHUB_TOKEN
-    hostname: CHATS
+    hostname: connect-sync-chats
     ports:
       - "9003:8080"
     restart: unless-stopped
@@ -249,21 +249,21 @@ services:
           memory: 256M
     environment:
       # Mode
-      MODE: ${CHATS_MODE}
+      MODE: ${SYNC_CHATS_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: http://auth:8080
+      AUTH_SERVICE_ADDRESS: http://connect-auth:8080
       HTTP_FILES_SERVER_ADDRESS: http://http-files-server:8080
 
       # Postgres Connection
       POSTGRES_DSN: postgres://${POSTGRES_CHATS_DB_USER}:${POSTGRES_CHATS_DB_PASSWORD_ENCODED}@postgres:5432/${POSTGRES_CHATS_DB_NAME}?sslmode=disable
-      POSTGRES_MAX_IDLE_CONNECTIONS: ${CHATS_POSTGRES_MAX_IDLE_CONNECTIONS}
-      POSTGRES_MAX_OPEN_CONNECTIONS: ${CHATS_POSTGRES_MAX_OPEN_CONNECTIONS}
+      POSTGRES_MAX_IDLE_CONNECTIONS: ${SYNC_CHATS_POSTGRES_MAX_IDLE_CONNECTIONS}
+      POSTGRES_MAX_OPEN_CONNECTIONS: ${SYNC_CHATS_POSTGRES_MAX_OPEN_CONNECTIONS}
 
       # Redis configuration
       REDIS_ADDRESS: redis:6379
-      REDIS_USERNAME: ${REDIS_CHATS_USER}
-      REDIS_PASSWORD: ${REDIS_CHATS_PASSWORD}
+      REDIS_USERNAME: ${REDIS_SYNC_CHATS_USER}
+      REDIS_PASSWORD: ${REDIS_SYNC_CHATS_PASSWORD}
       REDIS_DB: ${REDIS_TOKENS_DB}
     volumes:
       - ./jwt/keys/public_key.pem:/app/config/public_key.pem:ro
@@ -303,7 +303,7 @@ services:
       MODE: ${SOCIAL_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: http://auth:8080
+      AUTH_SERVICE_ADDRESS: http://connect-auth:8080
       
       # Redis configuration
       REDIS_ADDRESS: redis:6379
@@ -347,9 +347,9 @@ services:
       MODE: ${REALTIME_MODE}
 
       # Server configuration
-      AUTH_SERVICE_ADDRESS: http://auth:8080
+      AUTH_SERVICE_ADDRESS: http://connect-auth:8080
       HTTP_FILES_SERVER_ADDRESS: http://http-files-server:8080
-      CHATS_SERVICE_ADDRESS: http://chats:8080
+      CHATS_SERVICE_ADDRESS: http://connect-sync-chats:8080
       
       # Redis configuration
       REDIS_ADDRESS: redis:6379
@@ -364,7 +364,7 @@ services:
     depends_on:
       http-files-server:
         condition: service_started
-      connect-chats:
+      connect-sync-chats:
         condition: service_started
       connect-auth:
         condition: service_started
@@ -489,7 +489,7 @@ services:
       # Users
       REDIS_AUTH_USER: ${REDIS_AUTH_USER}
       REDIS_USER_USER: ${REDIS_USER_USER}
-      REDIS_CHATS_USER: ${REDIS_CHATS_USER}
+      REDIS_SYNC_CHATS_USER: ${REDIS_SYNC_CHATS_USER}
       REDIS_SOCIAL_USER: ${REDIS_SOCIAL_USER}
       REDIS_REALTIME_USER: ${REDIS_REALTIME_USER}
       REDIS_FILES_SERVER_USER: ${REDIS_FILES_SERVER_USER}
@@ -497,7 +497,7 @@ services:
       # Passwords
       REDIS_AUTH_PASSWORD: ${REDIS_AUTH_PASSWORD}
       REDIS_USER_PASSWORD: ${REDIS_USER_PASSWORD}
-      REDIS_CHATS_PASSWORD: ${REDIS_CHATS_PASSWORD}
+      REDIS_SYNC_CHATS_PASSWORD: ${REDIS_SYNC_CHATS_PASSWORD}
       REDIS_SOCIAL_PASSWORD: ${REDIS_SOCIAL_PASSWORD}
       REDIS_REALTIME_PASSWORD: ${REDIS_REALTIME_PASSWORD}
       REDIS_FILES_SERVER_PASSWORD: ${REDIS_FILES_SERVER_PASSWORD}

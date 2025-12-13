@@ -66,20 +66,20 @@ echo -e "${GREEN}✓ Granted privileges on all tables in user database!${NC}"
 psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_USER_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO \"$POSTGRES_USER_DB_USER\";"
 echo -e "${GREEN}✓ Granted privileges on all sequences in user database!${NC}"
 
-# Create Movies DB and its user
+# Create Chats DB and its user
 psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" <<-EOSQL
-    CREATE USER "$POSTGRES_MOVIES_DB_USER" WITH PASSWORD '$POSTGRES_MOVIES_DB_PASSWORD';
-    CREATE DATABASE "$POSTGRES_MOVIES_DB_NAME" OWNER "$POSTGRES_MOVIES_DB_USER";
-    GRANT ALL PRIVILEGES ON DATABASE "$POSTGRES_MOVIES_DB_NAME" TO "$POSTGRES_MOVIES_DB_USER";
+    CREATE USER "$POSTGRES_CHATS_DB_USER" WITH PASSWORD '$POSTGRES_CHATS_DB_PASSWORD';
+    CREATE DATABASE "$POSTGRES_CHATS_DB_NAME" OWNER "$POSTGRES_CHATS_DB_USER";
+    GRANT ALL PRIVILEGES ON DATABASE "$POSTGRES_CHATS_DB_NAME" TO "$POSTGRES_CHATS_DB_USER";
 EOSQL
-echo -e "${GREEN}✓ Movies database and user created successfully!${NC}"
+echo -e "${GREEN}✓ Chats database and user created successfully!${NC}"
 
 # Run the schema for the specific database
-files=(./docker-entrypoint-initdb.d/sql/movies_*.sql)
+files=(./docker-entrypoint-initdb.d/sql/chats_*.sql)
 if [ -e "${files[0]}" ]; then
   for file in "${files[@]}"; do
     echo "Found SQL file: $file"
-    psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_MOVIES_DB_NAME" -f "$file"
+    psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_CHATS_DB_NAME" -f "$file"
     echo -e "${GREEN}✓ Executed $file successfully!${NC}"
   done
 else
@@ -87,12 +87,12 @@ else
 fi
 
 # Ensure the user has privileges on all tables in the public schema
-psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_MOVIES_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO \"$POSTGRES_MOVIES_DB_USER\";"
-echo -e "${GREEN}✓ Granted privileges on all tables in movies database!${NC}"
+psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_CHATS_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO \"$POSTGRES_CHATS_DB_USER\";"
+echo -e "${GREEN}✓ Granted privileges on all tables in chats database!${NC}"
 
 # Ensure the user has privileges on all sequences in the public schema
-psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_MOVIES_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO \"$POSTGRES_MOVIES_DB_USER\";"
-echo -e "${GREEN}✓ Granted privileges on all sequences in movies database!${NC}"
+psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_CHATS_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO \"$POSTGRES_CHATS_DB_USER\";"
+echo -e "${GREEN}✓ Granted privileges on all sequences in chats database!${NC}"
 
 echo ""
 echo "=========================================="

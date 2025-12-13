@@ -22,9 +22,9 @@ ingress:
       noTLSVerify: true
       readTimeout: 3600s
       writeTimeout: 3600s
-  - hostname: chat.example.org
+  - hostname: sync.example.org
     service: http://localhost:9003
-  - hostname: chat2.example.org
+  - hostname: sync2.example.org
     service: http://localhost:9003
     originRequest:
       http2Origin: true
