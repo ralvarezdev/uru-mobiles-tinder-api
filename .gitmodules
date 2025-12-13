@@ -31,3 +31,6 @@
 [submodule "sql-chats"]
 	path = sql-chats
 	url = https://github.com/ralvarezdev/sql-chats
+[submodule "sql-files"]
+	path = sql-files
+	url = https://github.com/ralvarezdev/sql-files

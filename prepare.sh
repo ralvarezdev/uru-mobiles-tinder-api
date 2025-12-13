@@ -29,6 +29,13 @@ for file in ./sql-chats/*.sql; do
     fi
 done
 
+# Copy SQL initialization files from Files server to the postgres directory
+for file in ./sql-files/*.sql; do
+    if [ -f "$file" ]; then
+        cp "$file" "./postgres/initdb.d/sql/files_$(basename "$file")"
+    fi
+done
+
 # Ensure SQL files can be read
 chmod a+r ./postgres/initdb.d/sql/*.sql
 echo "SQL initialization files prepared."
