@@ -122,6 +122,34 @@ echo -e "${GREEN}✓ Granted privileges on all tables in files server database!$
 psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_FILES_SERVER_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO \"$POSTGRES_FILES_SERVER_DB_USER\";"
 echo -e "${GREEN}✓ Granted privileges on all sequences in files server database!${NC}"
 
+# Create Social DB and its user
+psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" <<-EOSQL
+    CREATE USER "$POSTGRES_SOCIAL_DB_USER" WITH PASSWORD '$POSTGRES_SOCIAL_DB_PASSWORD';
+    CREATE DATABASE "$POSTGRES_SOCIAL_DB_NAME" OWNER "$POSTGRES_SOCIAL_DB_USER";
+    GRANT ALL PRIVILEGES ON DATABASE "$POSTGRES_SOCIAL_DB_NAME" TO "$POSTGRES_SOCIAL_DB_USER";
+EOSQL
+echo -e "${GREEN}✓ Social database and user created successfully!${NC}"
+
+# Run the schema for the specific database
+files=(./docker-entrypoint-initdb.d/sql/social_*.sql)
+if [ -e "${files[0]}" ]; then
+    for file in "${files[@]}"; do
+        echo "Found SQL file: $file"
+        psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_SOCIAL_DB_NAME" -f "$file"
+        echo -e "${GREEN}✓ Executed $file successfully!${NC}"
+    done
+else
+    echo "No SQL files found matching pattern."
+fi
+
+# Ensure the user has privileges on all tables in the public schema
+psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_SOCIAL_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO \"$POSTGRES_SOCIAL_DB_USER\";"
+echo -e "${GREEN}✓ Granted privileges on all tables in social database!${NC}"
+
+# Ensure the user has privileges on all sequences in the public schema
+psql -v ON_ERROR_STOP=1 -U "$POSTGRES_SUPERUSER_NAME" -d "$POSTGRES_SOCIAL_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO \"$POSTGRES_SOCIAL_DB_USER\";"
+echo -e "${GREEN}✓ Granted privileges on all sequences in social database!${NC}"
+
 echo ""
 echo "=========================================="
 echo -e "${GREEN}Postgres Setup: Complete!${NC}"

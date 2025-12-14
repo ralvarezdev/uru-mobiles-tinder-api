@@ -36,6 +36,13 @@ for file in ./sql-files/*.sql; do
     fi
 done
 
+# Copy SQL initialization files from Social Microservice to the postgres directory
+for file in ./sql-social/*.sql; do
+    if [ -f "$file" ]; then
+        cp "$file" "./postgres/initdb.d/sql/social_$(basename "$file")"
+    fi
+done
+
 # Ensure SQL files can be read
 chmod a+r ./postgres/initdb.d/sql/*.sql
 echo "SQL initialization files prepared."
