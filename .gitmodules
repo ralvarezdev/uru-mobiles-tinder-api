@@ -34,3 +34,6 @@
 [submodule "sql-social"]
 	path = sql-social
 	url = https://github.com/ralvarezdev/sql-social
+[submodule "connect-sync-chats"]
+	path = connect-sync-chats
+	url = https://github.com/ralvarezdev/connect-sync-chats

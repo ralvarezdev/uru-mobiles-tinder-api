@@ -6,7 +6,9 @@ mkdir -p ./postgres/initdb.d/sql
 # Create the folders if they don't exist
 mkdir -p ./sql-auth
 mkdir -p ./sql-user
-mkdir -p ./sql-sync-chats
+mkdir -p ./sql-chats
+mkdir -p ./sql-files
+mkdir -p ./sql-social
 
 # Copy SQL initialization files from Auth microservice to the postgres directory
 for file in ./sql-auth/*.sql; do
