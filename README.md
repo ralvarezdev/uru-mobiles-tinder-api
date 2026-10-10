@@ -39,6 +39,9 @@ A `GITHUB_TOKEN` build secret is required to build the private submodule images.
 
 Cloudflare Tunnel ingress is configured via `cloudflared/config.yml.example` — copy it, set your own tunnel ID/credentials, and never commit the real file.
 
+## Related repositories
+
+- [`uru-mobiles-tinder-app`](https://github.com/ralvarezdev/uru-mobiles-tinder-app) — matching application.
 ## License
 
 GNU General Public License v3.0 (see `LICENSE`).
