@@ -42,6 +42,7 @@ Cloudflare Tunnel ingress is configured via `cloudflared/config.yml.example` —
 ## Related repositories
 
 - [`uru-mobiles-tinder-app`](https://github.com/ralvarezdev/uru-mobiles-tinder-app) — matching application.
+
 ## License
 
 GNU General Public License v3.0 (see `LICENSE`).
